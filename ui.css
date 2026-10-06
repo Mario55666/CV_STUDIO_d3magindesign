@@ -1,0 +1,117 @@
+/* CV Studio — Barra superior, herramientas destacadas, privacidad, importación y biblioteca
+   © 2026 d3magindesign · Mg. Mario Quiroz Martínez
+   Se carga ANTES de app.js: solo agrega estilos y mueve la barra a un grupo nuevo. */
+
+/* ===================== BARRA SUPERIOR ORDENADA ===================== */
+nav.top.appbar{height:auto}
+nav.top.appbar .wrap{display:grid;grid-template-columns:auto 1fr auto;gap:10px 20px;align-items:center;height:auto;padding-top:9px;padding-bottom:9px}
+nav.top .logo{display:flex;align-items:baseline;gap:8px;white-space:nowrap;flex-wrap:wrap;min-width:0}
+nav.top .logo .logo-by{font-size:.6rem;white-space:nowrap}
+nav.top ul{display:flex;gap:2px;list-style:none;margin:0;padding:0;font-size:.85rem;font-weight:600;justify-content:center;flex-wrap:wrap}
+nav.top ul a{text-decoration:none;color:var(--muted);padding:6px 11px;border-radius:999px;display:block;white-space:nowrap}
+nav.top ul a:hover{color:var(--ink);background:var(--soft)}
+nav.top .pills{display:none}          /* el estado ahora vive en el chip inferior */
+@media (max-width:1080px){
+  nav.top.appbar .wrap{grid-template-columns:1fr auto;row-gap:8px}
+  nav.top ul{order:3;grid-column:1/-1;justify-content:flex-start;overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px;
+    -webkit-overflow-scrolling:touch;scrollbar-width:thin;mask-image:linear-gradient(90deg,#000 92%,transparent)}
+  nav.top ul a{padding:6px 10px;background:var(--soft)}
+}
+@media (max-width:560px){
+  nav.top ul a{font-size:.8rem;padding:6px 9px}
+}
+/* Ancla para que los enlaces del menú no queden bajo la barra fija */
+section[id],header[id]{scroll-margin-top:96px}
+
+/* ===================== CHIP DE ESTADO (abajo a la derecha) =====================
+   Antes estaba en la barra superior y competía con el menú; ahora es un detalle
+   discreto que se aclara al pasar el cursor. */
+.cv-status{position:fixed;right:18px;bottom:74px;z-index:35;display:flex;align-items:center;gap:10px;
+  padding:8px 13px;border-radius:999px;background:color-mix(in srgb,var(--surface) 78%,transparent);
+  border:1px solid var(--line);box-shadow:0 4px 16px rgba(15,25,40,.10);backdrop-filter:blur(7px);
+  opacity:.6;transition:opacity .2s ease,box-shadow .2s ease,transform .2s ease;pointer-events:auto;max-width:min(300px,72vw)}
+.cv-status:hover,.cv-status:focus-within{opacity:1;box-shadow:0 8px 24px rgba(15,25,40,.16)}
+.cs-ring{width:22px;height:22px;border-radius:50%;flex:none;display:grid;place-items:center;font:700 .55rem Montserrat,sans-serif;color:var(--muted);
+  background:conic-gradient(var(--teal) calc(var(--p,0) * 1%),var(--line) 0)}
+.cs-ring::after{content:"";width:15px;height:15px;border-radius:50%;background:var(--surface)}
+.cv-status.is-doc .cs-ring{background:conic-gradient(var(--navy) calc(var(--p,0) * 1%),var(--line) 0)}
+.cs-tx{display:grid;line-height:1.25;min-width:0}
+.cs-tx span{font:700 .74rem Montserrat,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cs-tx small{font-size:.66rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:760px){
+  .cv-status{right:10px;bottom:72px;padding:6px 11px;opacity:.72;max-width:62vw}
+  .cs-tx span{font-size:.7rem}
+}
+@media print{.cv-status{display:none !important}}
+
+/* ===================== AVISO FIJO DE PRIVACIDAD ===================== */
+.privacy-bar{background:color-mix(in srgb,var(--green) 10%,var(--surface));border-bottom:1px solid var(--line);font-size:.79rem;line-height:1.5}
+.privacy-bar .wrap{display:flex;gap:10px;align-items:flex-start;padding:9px 16px}
+.privacy-bar b{color:var(--green)}
+.privacy-bar span{color:var(--muted)}
+
+/* ===================== ATAJOS DEL HERO Y HERRAMIENTAS ===================== */
+.tool-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:18px}
+.tool-row .sep{width:1px;height:22px;background:var(--line);margin:0 2px}
+.tool-row .hint{font-size:.78rem;color:var(--muted)}
+.btn-danger{background:transparent;border:1.5px solid color-mix(in srgb,var(--rose) 55%,var(--line));color:var(--rose)}
+.btn-danger:hover{border-color:var(--rose);background:color-mix(in srgb,var(--rose) 10%,var(--surface))}
+#jsonExport,#jsonExport2{opacity:.75}
+.toolbar .tgroup{display:flex;gap:6px;flex-wrap:wrap;align-items:center;padding:6px 10px;border:1px dashed var(--line);border-radius:12px;background:var(--bg)}
+.toolbar .tgroup>b{font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-right:2px}
+.toolbar .tgroup.save{border-style:solid;border-color:color-mix(in srgb,var(--teal) 45%,var(--line));background:color-mix(in srgb,var(--teal) 6%,var(--surface))}
+.toolbar .tgroup.danger{border-style:solid;border-color:color-mix(in srgb,var(--rose) 35%,var(--line))}
+.toolbar .saved{margin-left:auto}
+.bib-del{color:var(--rose)}
+@media (max-width:760px){.toolbar .tgroup{width:100%}.toolbar .tgroup>b{flex-basis:100%}}
+
+/* ===================== DIÁLOGO DE IMPORTACIÓN ===================== */
+dialog.imp-dlg{width:min(880px,95vw)}
+.imp-body{max-height:70vh;overflow:auto;display:grid;gap:14px}
+.imp-intro{margin:0;font-size:.86rem;color:var(--muted)}
+.imp-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.imp-note{font-size:.76rem;color:var(--amber)}
+.imp-paste{border:1px dashed var(--line);border-radius:10px;padding:10px 14px;background:var(--bg)}
+.imp-paste summary{cursor:pointer;font-size:.84rem;font-weight:600;padding:2px 0}
+.imp-paste textarea{margin:10px 0;font-size:.84rem}
+.imp-load{color:var(--muted);font-size:.86rem}
+.imp-err{margin:0;color:var(--rose);font-size:.86rem;background:color-mix(in srgb,var(--rose) 8%,var(--surface));border-left:4px solid var(--rose);padding:10px 12px;border-radius:0 8px 8px 0}
+.imp-res{border:1.5px solid color-mix(in srgb,var(--teal) 40%,var(--line));border-radius:12px;padding:14px 16px;display:grid;gap:10px;background:color-mix(in srgb,var(--teal) 4%,var(--surface))}
+.imp-res h4{margin:0;font-size:.9rem}
+.imp-row{display:grid;grid-template-columns:130px 1fr;gap:10px;font-size:.82rem;border-bottom:1px dashed var(--line);padding-bottom:6px}
+.imp-row span{color:var(--muted)}
+.imp-row b{word-break:break-word}
+.imp-secs{display:flex;gap:6px;flex-wrap:wrap;align-items:center;font-size:.8rem}
+.imp-lab{color:var(--muted);margin-right:2px}
+.imp-chip{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:.76rem}
+.imp-chip b{color:var(--teal)}
+.imp-warn{margin:0;padding-left:18px;font-size:.8rem;color:var(--amber)}
+.imp-warn li{margin:3px 0}
+.imp-copy{margin:0;font-size:.78rem;color:var(--muted)}
+.imp-go{display:flex;gap:8px;flex-wrap:wrap}
+.imp-json{width:100%}
+
+/* ===================== BIBLIOTECA ===================== */
+dialog.bib-dlg{width:min(920px,95vw)}
+.bib-body{max-height:72vh;overflow:auto;display:grid;gap:16px}
+.bib-privacy{background:color-mix(in srgb,var(--green) 9%,var(--surface));border:1px solid color-mix(in srgb,var(--green) 35%,var(--line));border-radius:12px;padding:12px 15px;font-size:.82rem}
+.bib-privacy b{color:var(--green)}
+.bib-privacy p{margin:5px 0 0;color:var(--muted);line-height:1.55}
+.bib-nueva{border:1px dashed var(--line);border-radius:12px;padding:14px 16px;background:var(--bg)}
+.bib-nueva input{margin-bottom:2px}
+.bib-h{margin:0;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.bib-lista{display:grid;gap:10px}
+.bib-item{display:grid;grid-template-columns:10px 1fr auto;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.bib-dot{width:10px;height:100%;min-height:34px;border-radius:6px}
+.bib-tx{display:grid;gap:2px;min-width:0}
+.bib-tx b{font-size:.92rem}
+.bib-tx small{color:var(--muted);font-size:.76rem}
+.bib-meta{font-variant-numeric:tabular-nums}
+.bib-nota{font-style:italic}
+.bib-acts{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.bib-vacia{margin:0;color:var(--muted);font-size:.84rem;padding:14px;text-align:center;background:var(--bg);border-radius:10px}
+@media (max-width:700px){.bib-item{grid-template-columns:8px 1fr}.bib-acts{grid-column:1/-1;justify-content:flex-start}}
+
+/* ===================== MENOS ESPACIO PERDIDO ===================== */
+section{padding:56px 0}
+@media print{.privacy-bar,.tool-row,.demo-strip{display:none !important}}
